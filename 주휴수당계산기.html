@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주휴수당 계산기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eef;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>주휴수당 계산기</h1>
+<form id="calculatorForm">
+    <label for="hourlyWage">시급 (원):</label>
+    <input type="number" id="hourlyWage" placeholder="시급을 입력하세요" required>
+
+    <label for="weeklyHours">주간 근로시간 (시간):</label>
+    <input type="number" id="weeklyHours" placeholder="근무시간을 입력하세요" required>
+
+    <button type="button" onclick="calculate()">계산하기</button>
+</form>
+
+<div id="result" class="result" style="display: none;">
+    주휴수당: <span id="pay"></span> 원
+</div>
+
+<script>
+    function calculate() {
+        // 입력 값 가져오기
+        const hourlyWage = parseFloat(document.getElementById("hourlyWage").value);
+        const weeklyHours = parseFloat(document.getElementById("weeklyHours").value);
+
+        // 유효성 검사
+        if (isNaN(hourlyWage) || isNaN(weeklyHours) || hourlyWage <= 0 || weeklyHours <= 0) {
+            alert("올바른 값을 입력하세요!");
+            return;
+        }
+
+        // 주휴수당 계산 (근무시간이 15시간 이상일 때만 지급)
+        if (weeklyHours >= 15) {
+            const weeklyAllowance = hourlyWage * (weeklyHours / 40) * 8; // 주휴수당 계산 공식
+            document.getElementById("pay").textContent = weeklyAllowance.toFixed(0);
+            document.getElementById("result").style.display = "block";
+        } else {
+            alert("주간 근로시간이 15시간 미만인 경우 주휴수당이 지급되지 않습니다.");
+            document.getElementById("result").style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>
